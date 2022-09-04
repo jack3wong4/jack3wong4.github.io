@@ -3,28 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   User? get currentUser => _firebaseAuth.currentUser;
 
-  Future<User?> getOrCreateUser() async {
+  Future getOrCreateUser() async {
     if (currentUser == null) {
       await _firebaseAuth.signInAnonymously();
-      initializeAccount();
+      DocumentReference document = FirebaseFirestore.instance
+          .collection('users_c')
+          .doc(currentUser?.uid);
+      if (currentUser != null) {
+        document.set({'detail_1': 'Waiting', 'detail_2': 10});
+      }
     }
     return currentUser;
-  }
-
-  initializeAccount() {
-    DocumentReference document =
-        FirebaseFirestore.instance.collection('users').doc(currentUser?.uid);
-
-    if (currentUser != null) {
-      document.set({'bank': 3});
-    }
-//    document.get().then((documentSnapshot) {
-//      if (documentSnapshot.exists) {
-//        document.set({'bank': 3});
-//      }
-//    });
   }
 }

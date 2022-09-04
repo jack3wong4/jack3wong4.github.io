@@ -1,14 +1,19 @@
 class Account {
   String? uid;
-  int bank = 0;
-  DateTime? nextFreeQuestion;
+  String? detail_1;
+  int detail_2 = 0;
+  DateTime? nextFreeEvent;
 
   Account();
 
-  Map<String, dynamic> toJson() =>
-      {'bank': bank, 'nextFreeQuestion': nextFreeQuestion};
+  Map<String, dynamic> toJson() => {
+        'detail_1': detail_1,
+        'detail_2': detail_2,
+        'nextFreeEvent': nextFreeEvent
+      };
 
-  Account.fromSnapshot(snapshot, this.uid) 
-  : bank = snapshot.data()['bank'],
-    nextFreeQuestion = snapshot.data()['nextFreeQuestion'].toDate();
+  Account.fromSnapshot(snapshot, this.uid)
+  : detail_1 = snapshot.data()['detail_1'], 
+    detail_2 = snapshot.data()['detail_2'],
+    nextFreeEvent = snapshot.data()['nextFreeEvent'].toDate();
 }
